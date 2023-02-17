@@ -3,10 +3,9 @@ package jwtToken
 import (
 	"errors"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/spf13/viper"
 	"time"
 )
-
-var signingKey = "golang web"
 
 type JwtCustomClaims struct {
 	UserId string
@@ -16,11 +15,6 @@ type JwtCustomClaims struct {
 type JwtSign struct {
 	SingingKey []byte
 }
-
-var (
-	ExpiresDuration        = 24 * time.Hour
-	RefreshExpiresDuration = int64(1 * time.Hour)
-)
 
 var (
 	TokenInvalid = errors.New("token is invalid")
@@ -33,13 +27,15 @@ func FormatJwtExpiresTime(dur time.Duration) *jwt.NumericDate {
 
 // CreateClaims 创建claims
 func (*JwtSign) CreateClaims(userId string) *JwtCustomClaims {
+	expiresTime := FormatJwtExpiresTime(viper.GetDuration("Token.TokenExpiresDuration") * time.Second)
+
 	return &JwtCustomClaims{
 		UserId: userId,
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    "jwt",                                 // 签发人
-			ExpiresAt: FormatJwtExpiresTime(ExpiresDuration), // 过期时间
-			IssuedAt:  jwt.NewNumericDate(time.Now()),        // 签发时间
-			Subject:   "Token",                               // 主题
+			Issuer:    "jwt",                          // 签发人
+			ExpiresAt: expiresTime,                    // 过期时间
+			IssuedAt:  jwt.NewNumericDate(time.Now()), // 签发时间
+			Subject:   "Token",                        // 主题
 		},
 	}
 }
@@ -81,6 +77,6 @@ func (j *JwtSign) ParseToken(tokenString string) (*JwtCustomClaims, error) {
 // New 创建JwtSign实例
 func New() *JwtSign {
 	return &JwtSign{
-		SingingKey: []byte(signingKey),
+		SingingKey: []byte(viper.GetString("Token.TokenSigningKey")),
 	}
 }

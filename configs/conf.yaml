@@ -1,0 +1,7 @@
+# Token=================================================================
+Token:
+  TokenSigningKey: "admin-server" # 设置Token生成加密的签名
+  TokenExpiresDuration: 24 * 60 * 60             #设置Token过期时间(单位: s)
+  TokenRefreshDuration: 60 * 60 # 设置Token更新时间
+# Redis=================================================================
+Redis:
