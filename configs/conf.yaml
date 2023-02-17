@@ -1,7 +1,14 @@
 # Token=================================================================
-Token:
-  TokenSigningKey: "admin-server" # 设置Token生成加密的签名
-  TokenExpiresDuration: 24 * 60 * 60             #设置Token过期时间(单位: s)
-  TokenRefreshDuration: 60 * 60 # 设置Token更新时间
+token:
+  tokenSigningKey: "admin-server"                 # 设置Token生成加密的签名
+  tokenExpiresDuration: 24 * 60 * 60              # 设置Token过期时间(单位: s)
+  tokenRefreshDuration: 60 * 60                   # 设置Token更新时间
+# Logs==================================================================
+log:
+  filename: "logs/log.txt"
+  maxSize: 500  # megabytes
+  maxBackups: 3
+  maxAge: 28
+  compress: true
 # Redis=================================================================
-Redis:
+redis:

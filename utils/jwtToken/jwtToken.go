@@ -27,7 +27,7 @@ func FormatJwtExpiresTime(dur time.Duration) *jwt.NumericDate {
 
 // CreateClaims 创建claims
 func (*JwtSign) CreateClaims(userId string) *JwtCustomClaims {
-	expiresTime := FormatJwtExpiresTime(viper.GetDuration("Token.TokenExpiresDuration") * time.Second)
+	expiresTime := FormatJwtExpiresTime(viper.GetDuration("token.tokenExpiresDuration") * time.Second)
 
 	return &JwtCustomClaims{
 		UserId: userId,

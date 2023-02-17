@@ -32,9 +32,9 @@ func CheckTokenAuth() types.HandlerFunc {
 		}
 
 		// 在最后的一小时过期时间内, 更新token
-		if clamis.ExpiresAt.Unix()-time.Now().Unix() < int64(viper.GetDuration("Token.TokenRefreshDuration")*time.Second) {
+		if clamis.ExpiresAt.Unix()-time.Now().Unix() < int64(viper.GetDuration("token.tokenRefreshDuration")*time.Second) {
 			nToken, _ := jwtSign.UpdateToken(clamis)
-			clamis.ExpiresAt = jwtToken.FormatJwtExpiresTime(viper.GetDuration("Token.TokenExpiresDuration") * time.Second)
+			clamis.ExpiresAt = jwtToken.FormatJwtExpiresTime(viper.GetDuration("token.tokenExpiresDuration") * time.Second)
 			// TODO: 后面存入redis的时候, 也需要更新过期时间
 			c.Header("Token", nToken)
 		}
