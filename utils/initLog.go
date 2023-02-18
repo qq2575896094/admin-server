@@ -14,13 +14,11 @@ func InitLogConf() {
 		MaxAge:     viper.GetInt("log.maxAge"),    //days
 		Compress:   viper.GetBool("log.compress"), // disabled by default
 	}
-
-	logrus.SetOutput(&logger)
-	// TODO: 规范日志格式
-	logrus.SetFormatter(&logrus.TextFormatter{
-		ForceColors:     false,
-		FullTimestamp:   true,
-		TimestampFormat: "2006-01-02-03 15:04:05",
+	logrus.WithFields(logrus.Fields{
+		"server": "admin-server",
 	})
-	logrus.WithField("app", "admin-server")
+	logrus.SetFormatter(&logrus.JSONFormatter{
+		DisableTimestamp: false,
+	})
+	logrus.SetOutput(&logger)
 }

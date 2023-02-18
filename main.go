@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/qq2575896094/admin-server/middleware/log"
 	"github.com/qq2575896094/admin-server/router"
 	"github.com/qq2575896094/admin-server/utils"
 	"github.com/sirupsen/logrus"
@@ -19,7 +20,8 @@ func init() {
 }
 
 func main() {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(log.Logger())
 
 	// 设置路由
 	router.SetRouter(r)

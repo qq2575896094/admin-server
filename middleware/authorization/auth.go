@@ -25,6 +25,8 @@ func CheckTokenAuth() types.HandlerFunc {
 		if err != nil {
 			if err == jwtToken.TokenExpired {
 				response.FailAuthorization("授权过期, 请重新登录", c)
+				c.Abort()
+				return
 			}
 			response.FailAuthorization("非法token, 请重新登录", c)
 			c.Abort()
