@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/qq2575896094/admin-server/db"
 	"github.com/qq2575896094/admin-server/middleware/log"
 	"github.com/qq2575896094/admin-server/router"
 	"github.com/qq2575896094/admin-server/utils"
-	"github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -17,6 +17,9 @@ func init() {
 
 	// 初始化log文件
 	utils.InitLogConf()
+
+	// 初始化mongodb server
+	db.InitServer()
 }
 
 func main() {
@@ -25,8 +28,6 @@ func main() {
 
 	// 设置路由
 	router.SetRouter(r)
-
-	logrus.Infoln("welcome to admin server~~")
 
 	r.Run(":8088")
 }

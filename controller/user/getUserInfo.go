@@ -1,8 +1,8 @@
 package user
 
 import (
-	"github.com/qq2575896094/admin-server/model/response"
 	"github.com/qq2575896094/admin-server/types"
+	"github.com/qq2575896094/admin-server/utils/response"
 )
 
 type userInfo struct {

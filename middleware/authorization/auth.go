@@ -2,9 +2,9 @@ package authorization
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/qq2575896094/admin-server/model/response"
 	"github.com/qq2575896094/admin-server/types"
 	"github.com/qq2575896094/admin-server/utils/jwtToken"
+	"github.com/qq2575896094/admin-server/utils/response"
 	"github.com/spf13/viper"
 	"time"
 )
