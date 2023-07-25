@@ -11,7 +11,7 @@ func setUserRouter(router *gin.Engine) {
 	userHandler := user.New()
 	{
 		r.POST("/register", userHandler.RegisterHandler()) // 注册账号
-		r.POST("/login", userHandler.RegisterHandler())    // 登录账号
+		r.POST("/login", userHandler.LoginHandler())       // 登录账号
 		r.POST("/logout", userHandler.RegisterHandler())   // 退出账号
 	}
 	r.Use(auth.CheckTokenAuth())

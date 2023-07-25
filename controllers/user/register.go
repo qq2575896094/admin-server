@@ -15,12 +15,12 @@ func (*userHandler) RegisterHandler() models.HandlerFunc {
 			return
 		}
 
-		resp, err := servers.NewUserServer().SignUp(&user)
+		userInfo, err := servers.NewUserServer().SignUp(&user)
 		if err != nil {
 			utils.FailWithMessage(err.Error(), c)
 			return
 		}
 
-		utils.Ok(resp, c)
+		utils.Ok(userInfo, c)
 	}
 }

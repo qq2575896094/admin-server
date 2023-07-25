@@ -10,7 +10,7 @@ import (
 
 func init() {
 	// 初始化log文件
-	utils.InitLogConf()
+	//utils.InitLogConf()
 
 	// 加载配置文件
 	utils.LoadConf("conf", "yaml")

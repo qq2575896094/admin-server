@@ -27,3 +27,8 @@ func AddUser(ctx context.Context, user *models.UserRegisterParams) (*mongo.Inser
 func GetUserById(ctx context.Context, id any, userInfo *models.UserInfo) error {
 	return userCollection.FindOne(ctx, bson.D{{"_id", id}}).Decode(userInfo)
 }
+
+// GetUserByName 通过用户名获取用户信息
+func GetUserByName(ctx context.Context, username string, userInfo *models.UserInfo) error {
+	return userCollection.FindOne(ctx, bson.D{{"username", username}}).Decode(userInfo)
+}

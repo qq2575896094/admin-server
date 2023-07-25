@@ -17,6 +17,12 @@ type UserRegisterParams struct {
 	Meta
 }
 
+// UserLoginParams 用户登录表单
+type UserLoginParams struct {
+	Username string `json:"username" bson:"username" binding:"required"`
+	Password string `json:"password" bson:"password" binding:"required"`
+}
+
 // UserInfo 用户信息
 type UserInfo struct {
 	Id          string `json:"id" bson:"_id"`
@@ -28,4 +34,5 @@ type UserInfo struct {
 	PhoneNumber string `json:"phoneNumber" bson:"phoneNumber"`
 	Gender      string `json:"gender" bson:"gender"`
 	Age         int    `json:"age" bson:"age"`
+	Meta
 }

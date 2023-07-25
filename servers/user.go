@@ -3,6 +3,7 @@ package servers
 import (
 	"context"
 	"errors"
+	"github.com/qq2575896094/admin-server/constants"
 	"github.com/qq2575896094/admin-server/dao"
 	"github.com/qq2575896094/admin-server/models"
 	"github.com/qq2575896094/admin-server/utils"
@@ -14,10 +15,14 @@ type UserServer struct {
 	ctx context.Context
 }
 
-func (u *UserServer) SignUp(user *models.UserRegisterParams) (resp any, err error) {
+// SignUp 注册
+func (u *UserServer) SignUp(user *models.UserRegisterParams) (*models.UserInfo, error) {
 	now := time.Now()
 	user.CreateAt = now
 	user.UpdateAt = now
+	user.Avatar = constants.UserAvatarDefault
+	user.Gender = constants.UserGenderDefault
+	user.Type = constants.UserTypeDefault
 
 	password, err := utils.HashPassword(user.Password)
 	if err != nil {
@@ -28,7 +33,7 @@ func (u *UserServer) SignUp(user *models.UserRegisterParams) (resp any, err erro
 	result, err := dao.AddUser(u.ctx, user)
 	if err != nil {
 		if er, ok := err.(mongo.WriteException); ok && er.WriteErrors[0].Code == 11000 {
-			return nil, errors.New("user with that already exist!")
+			return nil, errors.New("user with that already exist")
 		}
 		return nil, err
 	}
@@ -39,7 +44,23 @@ func (u *UserServer) SignUp(user *models.UserRegisterParams) (resp any, err erro
 		return nil, err
 	}
 
-	return userInfo, nil
+	return &userInfo, nil
+}
+
+// Login 登录
+func (u *UserServer) Login(user *models.UserLoginParams) (*models.UserInfo, error) {
+	var userInfo models.UserInfo
+	err := dao.GetUserByName(u.ctx, user.Username, &userInfo)
+	if err != nil {
+		return nil, errors.New("user not fond")
+	}
+
+	err = utils.ComparePassword(userInfo.Password, user.Password)
+	if err != nil {
+		return nil, errors.New("password is not correct")
+	}
+
+	return &userInfo, nil
 }
 
 func NewUserServer() *UserServer {
