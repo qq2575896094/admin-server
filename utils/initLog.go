@@ -15,7 +15,7 @@ func InitLogConf() {
 		Compress:   viper.GetBool("log.compress"), // disabled by default
 	}
 	logrus.WithFields(logrus.Fields{
-		"server": "admin-server",
+		"servers": "admin-servers",
 	})
 	logrus.SetFormatter(&logrus.JSONFormatter{
 		DisableTimestamp: false,

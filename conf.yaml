@@ -1,8 +1,8 @@
 # Token=================================================================
 token:
-  tokenSigningKey: "admin-server"                 # 设置Token生成加密的签名
-  tokenExpiresDuration: 24 * 60 * 60              # 设置Token过期时间(单位: s)
-  tokenRefreshDuration: 60 * 60                   # 设置Token更新时间
+  tokenSigningKey: "admin-servers"                 # 设置Token生成加密的签名
+  tokenExpiresDuration: 86400              # 设置Token过期时间(单位: s)
+  tokenRefreshDuration: 3600                  # 设置Token更新时间
 # Logs==================================================================
 log:
   filename: "logs/log.txt"
@@ -12,9 +12,14 @@ log:
   compress: true
 # Redis=================================================================
 redis:
+  host: "192.168.3.4"
+  port: "6379"
+  dbName:   0
+#	username: string
+#	password: string
 # Mongodb===============================================================
 mongodb:
+  host: 127.0.0.1
+  port: 27017
   username: "root"
   password: "!QAZXSW2"
-  host: 0.0.0.0
-  port: 27017

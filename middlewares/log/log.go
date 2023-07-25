@@ -11,11 +11,11 @@ import (
 
 type Params struct {
 	Request *http.Request `json:"-"`
-	// TimeStamp shows the time after the server returns a response.
+	// TimeStamp shows the time after the servers returns a response.
 	TimeStamp time.Time `json:"-"`
 	// StatusCode is HTTP response code.
 	StatusCode int `json:"statusCode"`
-	// Latency is how much time the server cost to process a certain request.
+	// Latency is how much time the servers cost to process a certain request.
 	Latency time.Duration `json:"latency"`
 	// ClientIP equals Context's ClientIP method.
 	ClientIP string `json:"clientIP"`
