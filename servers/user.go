@@ -63,6 +63,10 @@ func (u *UserServer) Login(user *models.UserLoginParams) (*models.UserInfo, erro
 	return &userInfo, nil
 }
 
+func GetUserInfo() {
+
+}
+
 func NewUserServer() *UserServer {
 	return &UserServer{}
 }

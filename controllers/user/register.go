@@ -10,7 +10,7 @@ func (*userHandler) RegisterHandler() models.HandlerFunc {
 	return func(c *models.Context) {
 		var user models.UserRegisterParams
 
-		if err := c.ShouldBind(&user); err != nil {
+		if err := c.ShouldBindJSON(&user); err != nil {
 			utils.FailWithMessage(err.Error(), c)
 			return
 		}
