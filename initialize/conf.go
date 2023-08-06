@@ -13,13 +13,11 @@ func LoadConf(configName string, configType string) {
 	viper.SetConfigType(configType)
 	viper.AddConfigPath(workDir)
 
-	err := viper.ReadInConfig()
-	if err != nil {
+	if err := viper.ReadInConfig(); err != nil {
 		panic(err)
 	}
 
-	err = viper.Unmarshal(&conf.Config)
-	if err != nil {
+	if err := viper.Unmarshal(&conf.Config); err != nil {
 		panic(err)
 	}
 }

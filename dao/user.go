@@ -27,16 +27,16 @@ func AddUser(ctx context.Context, user *models.UserRegisterParams) (*mongo.Inser
 
 // GetUserById 通过id获取用户信息
 func GetUserById(ctx context.Context, id any, userInfo *models.UserInfo) error {
-	if _id, ok := id.(string); ok {
-		objectID, err := primitive.ObjectIDFromHex(_id)
+	switch id.(type) {
+	case string:
+		objectID, err := primitive.ObjectIDFromHex(id.(string))
 		if err != nil {
 			return err
 		}
-
 		return userCollection.FindOne(ctx, bson.D{{"_id", objectID}}).Decode(userInfo)
-	} else if objectID, ok := id.(primitive.ObjectID); ok {
-		return userCollection.FindOne(ctx, bson.D{{"_id", objectID}}).Decode(userInfo)
-	} else {
+	case primitive.ObjectID:
+		return userCollection.FindOne(ctx, bson.D{{"_id", id}}).Decode(userInfo)
+	default:
 		return errors.New("非法数据: userId类型错误")
 	}
 }
