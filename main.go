@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/qq2575896094/admin-server/dao"
-	"github.com/qq2575896094/admin-server/middlewares/log"
+	"github.com/qq2575896094/admin-server/initialize"
+	"github.com/qq2575896094/admin-server/middlewares"
 	"github.com/qq2575896094/admin-server/router"
-	"github.com/qq2575896094/admin-server/utils"
 )
 
 func init() {
@@ -13,10 +13,10 @@ func init() {
 	//utils.InitLogConf()
 
 	// 加载配置文件
-	utils.LoadConf("conf", "yaml")
+	initialize.LoadConf("conf", "yaml")
 
 	// 初始化 db servers
-	utils.InitServer()
+	initialize.InitServer()
 	// 初始化user collection
 	dao.InitUserCollection()
 }
@@ -24,7 +24,7 @@ func init() {
 func main() {
 	r := gin.New()
 
-	r.Use(log.Logger())
+	r.Use(middlewares.Logger())
 
 	// 设置路由
 	router.SetRouter(r)

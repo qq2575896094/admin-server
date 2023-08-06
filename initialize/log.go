@@ -1,4 +1,4 @@
-package utils
+package initialize
 
 import (
 	"github.com/natefinch/lumberjack"

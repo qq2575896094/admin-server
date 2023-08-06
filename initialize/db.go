@@ -1,20 +1,16 @@
-package utils
+package initialize
 
 import (
 	"context"
 	"fmt"
 	"github.com/qq2575896094/admin-server/conf"
+	"github.com/qq2575896094/admin-server/constants"
 	"github.com/redis/go-redis/v9"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"time"
 )
-
-var RedisClient *redis.Client // RedisClient Redis缓存客户端
-var MongoClient *mongo.Client // MongoClient MongoDB缓存客户端
-
-var RedisContext = context.Background()
 
 // InitRedisClient 初始化Redis
 func initRedisClient() {
@@ -28,13 +24,13 @@ func initRedisClient() {
 		DB:       redisConfig.DbName,
 	})
 
-	_, err := client.Ping(RedisContext).Result()
+	_, err := client.Ping(constants.RedisContext).Result()
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Connected to Redis!")
-	RedisClient = client
+	constants.RedisClient = client
 }
 
 func getMongoUri() string {
@@ -61,7 +57,7 @@ func initMongoClient() {
 	}
 
 	fmt.Println("Connected to MongoDB!")
-	MongoClient = client
+	constants.MongoClient = client
 }
 
 func InitServer() {
@@ -70,6 +66,6 @@ func InitServer() {
 }
 
 func CloseServer(ctx context.Context) {
-	_ = MongoClient.Disconnect(ctx)
-	_ = RedisClient.Close()
+	_ = constants.MongoClient.Disconnect(ctx)
+	_ = constants.RedisClient.Close()
 }

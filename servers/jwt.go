@@ -3,8 +3,8 @@ package servers
 import (
 	"context"
 	"github.com/qq2575896094/admin-server/conf"
+	"github.com/qq2575896094/admin-server/constants"
 	"github.com/qq2575896094/admin-server/models"
-	"github.com/qq2575896094/admin-server/utils"
 	"strings"
 	"time"
 )
@@ -16,15 +16,16 @@ type JwtService struct {
 
 // GetRedisToken 获取redis token
 func (j *JwtService) GetRedisToken(userId string) (token string, err error) {
-	return utils.RedisClient.Get(j.context, userId).Result()
+	return constants.RedisClient.Get(j.context, userId).Result()
 }
 
 // SetRedisToken 设置token
 func (j *JwtService) SetRedisToken(userId string, token string) error {
 	dur := time.Duration(conf.Config.Token.TokenExpiresDuration) * time.Second
-	return utils.RedisClient.Set(context.Background(), userId, token, dur).Err()
+	return constants.RedisClient.Set(context.Background(), userId, token, dur).Err()
 }
 
+// SetToken 设置token
 func (j *JwtService) SetToken(userId string, token string) error {
 	if err := j.SetRedisToken(userId, token); err != nil {
 		return err
@@ -44,5 +45,5 @@ func (j *JwtService) IsHttps() bool {
 }
 
 func NewJwtService(ctx *models.Context) *JwtService {
-	return &JwtService{context: utils.RedisContext, ctx: ctx}
+	return &JwtService{context: constants.RedisContext, ctx: ctx}
 }

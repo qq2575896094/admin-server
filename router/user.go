@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/qq2575896094/admin-server/controllers/user"
-	"github.com/qq2575896094/admin-server/middlewares/auth"
+	"github.com/qq2575896094/admin-server/middlewares"
 )
 
 func setUserRouter(router *gin.Engine) {
@@ -14,7 +14,7 @@ func setUserRouter(router *gin.Engine) {
 		r.POST("/login", userHandler.LoginHandler())       // 登录账号
 		r.POST("/logout", userHandler.RegisterHandler())   // 退出账号
 	}
-	r.Use(auth.CheckTokenAuth())
+	r.Use(middlewares.CheckTokenAuth())
 	{
 		r.GET("/getUserInfo", userHandler.GetUserInfoHandler()) // 获取自身信息
 		//r.POST("changePassword", baseApi.ChangePassword) // 用户修改密码

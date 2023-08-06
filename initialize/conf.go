@@ -1,4 +1,4 @@
-package utils
+package initialize
 
 import (
 	"github.com/qq2575896094/admin-server/conf"

@@ -2,8 +2,8 @@ package dao
 
 import (
 	"context"
+	"github.com/qq2575896094/admin-server/constants"
 	"github.com/qq2575896094/admin-server/models"
-	"github.com/qq2575896094/admin-server/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -11,7 +11,7 @@ import (
 var userCollection *mongo.Collection
 
 func InitUserCollection() {
-	userCollection = utils.MongoClient.Database("appdb").Collection("users")
+	userCollection = constants.MongoClient.Database("appdb").Collection("users")
 }
 
 //func SetUsernameUniqueIndexes() {

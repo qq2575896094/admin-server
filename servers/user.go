@@ -32,7 +32,8 @@ func (u *UserServer) SignUp(user *models.UserRegisterParams) (*models.UserInfo, 
 
 	result, err := dao.AddUser(u.ctx, user)
 	if err != nil {
-		if er, ok := err.(mongo.WriteException); ok && er.WriteErrors[0].Code == 11000 {
+		var er mongo.WriteException
+		if errors.As(err, &er) && er.WriteErrors[0].Code == 11000 {
 			return nil, errors.New("user with that already exist")
 		}
 		return nil, err
