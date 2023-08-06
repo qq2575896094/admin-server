@@ -40,8 +40,7 @@ func (u *UserServer) SignUp(user *models.UserRegisterParams) (*models.UserInfo, 
 	}
 
 	var userInfo models.UserInfo
-	err = dao.GetUserById(u.ctx, result.InsertedID, &userInfo)
-	if err != nil {
+	if err := dao.GetUserById(u.ctx, result.InsertedID, &userInfo); err != nil {
 		return nil, err
 	}
 
@@ -51,21 +50,23 @@ func (u *UserServer) SignUp(user *models.UserRegisterParams) (*models.UserInfo, 
 // Login 登录
 func (u *UserServer) Login(user *models.UserLoginParams) (*models.UserInfo, error) {
 	var userInfo models.UserInfo
-	err := dao.GetUserByName(u.ctx, user.Username, &userInfo)
-	if err != nil {
+	if err := dao.GetUserByName(u.ctx, user.Username, &userInfo); err != nil {
 		return nil, errors.New("user not fond")
 	}
 
-	err = utils.ComparePassword(userInfo.Password, user.Password)
-	if err != nil {
+	if err := utils.ComparePassword(userInfo.Password, user.Password); err != nil {
 		return nil, errors.New("password is not correct")
 	}
 
 	return &userInfo, nil
 }
 
-func GetUserInfo() {
-
+func (u *UserServer) GetUserInfo(userId string) (*models.UserInfo, error) {
+	var userInfo models.UserInfo
+	if err := dao.GetUserById(u.ctx, userId, &userInfo); err != nil {
+		return nil, err
+	}
+	return &userInfo, nil
 }
 
 func NewUserServer() *UserServer {

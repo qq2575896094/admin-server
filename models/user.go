@@ -25,7 +25,7 @@ type UserLoginParams struct {
 
 // UserInfo 用户信息
 type UserInfo struct {
-	Id          string `json:"id" bson:"_id"`
+	Id          string `json:"-" bson:"_id"`
 	Username    string `json:"username" bson:"username"`
 	RealName    string `json:"realName" bson:"realName"`
 	Password    string `json:"-"`

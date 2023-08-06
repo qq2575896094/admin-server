@@ -8,7 +8,7 @@ import (
 	"github.com/qq2575896094/admin-server/utils"
 )
 
-func CheckTokenAuth() models.HandlerFunc {
+func CheckAuth() models.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("Token")
 		if token == "" {
@@ -37,6 +37,7 @@ func CheckTokenAuth() models.HandlerFunc {
 			return
 		}
 
+		c.Set("userId", userId)
 		c.Next()
 	}
 }

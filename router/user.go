@@ -14,7 +14,7 @@ func setUserRouter(router *gin.Engine) {
 		r.POST("/login", userHandler.LoginHandler())       // 登录账号
 		r.POST("/logout", userHandler.RegisterHandler())   // 退出账号
 	}
-	r.Use(middlewares.CheckTokenAuth())
+	r.Use(middlewares.CheckAuth())
 	{
 		r.GET("/getUserInfo", userHandler.GetUserInfoHandler()) // 获取自身信息
 		//r.POST("changePassword", baseApi.ChangePassword) // 用户修改密码
