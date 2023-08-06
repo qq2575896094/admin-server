@@ -61,17 +61,18 @@ func (j *JwtSign) ParseToken(token string) (*JwtCustomClaims, error) {
 }
 
 // RefreshToken 更新token
-func (j *JwtSign) RefreshToken(token string) (nToken string, err error) {
+func (j *JwtSign) RefreshToken(token string) (userId string, nToken string, err error) {
 	tokenClaim, err := j.ParseToken(token)
 	if err != nil {
 		return
 	}
 
 	if tokenClaim.ExpiresAt.Unix() > time.Now().Unix() {
-		return j.CreateToken(tokenClaim.UserId, tokenClaim.Username)
+		nToken, err := j.CreateToken(tokenClaim.UserId, tokenClaim.Username)
+		return tokenClaim.UserId, nToken, err
 	}
 
-	return "", TokenExpired
+	return tokenClaim.UserId, "", TokenExpired
 }
 
 // New 创建JwtSign实例

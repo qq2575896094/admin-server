@@ -1,11 +1,11 @@
 package auth
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/qq2575896094/admin-server/conf"
 	"github.com/qq2575896094/admin-server/models"
+	"github.com/qq2575896094/admin-server/servers"
 	"github.com/qq2575896094/admin-server/utils"
-	"strings"
 )
 
 func CheckTokenAuth() models.HandlerFunc {
@@ -17,10 +17,11 @@ func CheckTokenAuth() models.HandlerFunc {
 			return
 		}
 
-		nToken, err := utils.New().RefreshToken(token)
+		// TODO: 频繁刷新, 影响性能
+		userId, nToken, err := utils.New().RefreshToken(token)
 
 		if err != nil {
-			if err == utils.TokenExpired {
+			if errors.Is(err, utils.TokenExpired) {
 				utils.FailAuthorization("授权过期, 请重新登录", c)
 				c.Abort()
 				return
@@ -30,21 +31,12 @@ func CheckTokenAuth() models.HandlerFunc {
 			return
 		}
 
-		setToken(c, nToken)
+		if err := servers.NewJwtService(c).SetToken(userId, nToken); err != nil {
+			utils.FailWithMessage("设置登录状态失败", c)
+			c.Abort()
+			return
+		}
+
 		c.Next()
 	}
-}
-
-func setToken(c *gin.Context, token string) {
-	secure := IsHttps(c)
-	c.Header("Token", token)
-	c.SetCookie("Token", token, conf.Config.Token.TokenExpiresDuration, "/", "", secure, true)
-}
-
-// IsHttps 判断是否是https请求
-func IsHttps(c *gin.Context) bool {
-	if strings.HasPrefix(c.GetHeader("URL"), "https") || c.Request.TLS != nil {
-		return true
-	}
-	return false
 }

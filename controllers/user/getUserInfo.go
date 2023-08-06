@@ -8,7 +8,7 @@ import (
 type userInfo struct {
 	Name     string `json:"name"`
 	Age      int    `json:"age"`
-	password string `-`
+	Password string `json:"-"`
 }
 
 func (*userHandler) GetUserInfoHandler() models.HandlerFunc {
