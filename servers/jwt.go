@@ -31,7 +31,6 @@ func (j *JwtService) SetToken(userId string, token string) error {
 		return err
 	}
 	secure := j.IsHttps()
-	j.ctx.Header("Token", token)
 	j.ctx.SetCookie("Token", token, conf.Config.Token.TokenExpiresDuration, "/", "", secure, true)
 	return nil
 }
