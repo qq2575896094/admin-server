@@ -7,18 +7,18 @@ import (
 )
 
 func setUserRouter(router *gin.Engine) {
-	r := router.Group("user")
 	userHandler := controllers.New()
+	r := router.Group("")
 	{
-		r.POST("/register", userHandler.Register()) // 注册账号
-		r.POST("/login", userHandler.Login())       // 登录账号
+		r.POST("/user/register", userHandler.Register()) // 注册账号
+		r.POST("/user/login", userHandler.Login())       // 登录账号
 	}
 
-	r.Use(middlewares.CheckAuth())
+	user := router.Group("user").Use(middlewares.CheckAuth())
 	{
-		r.POST("/getUserInfo", userHandler.GetUserInfo())       // 获取自身信息
-		r.POST("/changePassword", userHandler.ChangePassword()) // 用户修改密码
-		//r.PUT("setUserInfo", userHandler.SetUserInfo)        				// 设置用户信息
-		r.POST("/logout", userHandler.Register()) // 退出账号
+		user.POST("/getUserInfo", userHandler.GetUserInfo())       // 获取自身信息
+		user.POST("/changePassword", userHandler.ChangePassword()) // 用户修改密码
+		//user.PUT("setUserInfo", userHandler.SetUserInfo)        				// 设置用户信息
+		user.POST("/logout", userHandler.Register()) // 退出账号
 	}
 }
